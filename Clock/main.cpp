@@ -21,7 +21,7 @@ typedef struct HandStuct
 void ClockNumber(RenderWindow& window)
 {
 	Font font;
-	font.loadFromFile("D:/Универ/ИИП и игра/Clock-lab71/Clock/9329.ttf");
+	font.loadFromFile("D:/Универ/ИИП и игра/Clock/9329.ttf");
 	Text number("", font, 50);
 	number.setColor(Color::Black);
 	number.setString("12");
