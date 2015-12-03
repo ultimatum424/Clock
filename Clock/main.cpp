@@ -41,20 +41,20 @@ void ClockNumber(RenderWindow& window)
 void InitializationHands(HandStuct& Hand)
 {
 	Hand.second.setSize(Vector2f(185, 3));
-	Hand.second.setPosition(window_x / 2, window_x / 2);
+	Hand.second.setPosition(WINDOW_X / 2, WINDOW_X / 2);
 	Hand.second.setFillColor(Color::Red);
 
 	Hand.minute.setSize(Vector2f(140, 4));
 	Hand.minute.setFillColor(Color::Black);
-	Hand.minute.setPosition(window_x / 2, window_x / 2);
+	Hand.minute.setPosition(WINDOW_X / 2, WINDOW_X / 2);
 
 	Hand.hour.setSize(Vector2f(100, 6));
 	Hand.hour.setFillColor((Color::Black));
-	Hand.hour.setPosition(window_x / 2, window_x / 2);
+	Hand.hour.setPosition(WINDOW_X / 2, WINDOW_X / 2);
 
 	Hand.сentre.setRadius(10);
 	Hand.сentre.setFillColor(sf::Color::Black);
-	Hand.сentre.setPosition((window_x / 2) - Hand.сentre.getRadius(), (window_y / 2) - Hand.сentre.getRadius());
+	Hand.сentre.setPosition((WINDOW_X / 2) - Hand.сentre.getRadius(), (WINDOW_X / 2) - Hand.сentre.getRadius());
 }
 void DrawClock(RenderWindow& window, HandStuct Hand, CircleShape shape)
 {
@@ -94,14 +94,14 @@ int main()
 	struct TimeforClock TimeClock;
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 8;
-	sf::RenderWindow window(sf::VideoMode(window_x, window_y), "CLOCK", sf::Style::Default, settings);
+	sf::RenderWindow window(sf::VideoMode(WINDOW_X, WINDOW_Y), "CLOCK", sf::Style::Default, settings);
 	// Инициализация "круга" циферблата
 	CircleShape shape(clock_face);
 	shape.setFillColor(sf::Color::White);
 	shape.setOutlineThickness(8);
 	shape.setOutlineColor(Color::Black);
 	shape.setPointCount(4000);
-	shape.setPosition((window_x /2) - shape.getRadius(), (window_y / 2) - shape.getRadius());
+	shape.setPosition((WINDOW_X /2) - shape.getRadius(), (WINDOW_X / 2) - shape.getRadius());
 	// Инициализация стрелок часов
 	InitializationHands(Hand);
 	while (window.isOpen())
