@@ -3,69 +3,74 @@
 #include <windows.h>
 #include <conio.h>
 #include "const.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+
 
 using namespace sf;
-typedef struct TimeforClock
+struct TimeforClock
 {
 	int hour;
 	int minute;
 	int second;
 };
-typedef struct HandStuct
+struct HandStuct
 {
 	RectangleShape second;
 	RectangleShape minute;
 	RectangleShape hour;
 	CircleShape Òentre;
 };
-void ClockNumber(RenderWindow& window)
+void SetPoints(RenderWindow& window, CircleShape& point)
 {
-	Font font;
-	font.loadFromFile("D:/”ÌË‚Â/»»œ Ë Ë„‡/Clock/9329.ttf");
-	Text number("", font, 50);
-	number.setColor(Color::Black);
-	number.setString("12");
-	number.setPosition(235, 40);
-	window.draw(number);
-	number.setString("6");
-	number.setPosition(240, 390);
-	window.draw(number);
-	number.setString("9");
-	number.setPosition(60, 210);
-	window.draw(number);
-	number.setString("3");
-	number.setPosition(420, 210);
-	window.draw(number);
-
+	point.setFillColor(Color::Black);
+	point.setPointCount(4000);
+	for (int i = 1; i <= 60; i++)
+	{
+		point.setRadius(2);
+		if (i % 5 == 0) point.setRadius(5);
+		float x = window_x / 2 + (CLOCK_FACE - THICKNESS) * cos(i * 6 * float(M_PI) / 180) - 3 ;
+		float y = window_x / 2 + (CLOCK_FACE - THICKNESS) * sin(i * 6 * float(M_PI) / 180) - 3;
+		point.setPosition(x, y);
+		window.draw(point);
+	}
 }
 void InitializationHands(HandStuct& Hand)
 {
 	Hand.second.setSize(Vector2f(185, 3));
-	Hand.second.setPosition(WINDOW_X / 2, WINDOW_X / 2);
+	Hand.second.setPosition(window_x / 2, window_x / 2);
 	Hand.second.setFillColor(Color::Red);
 
 	Hand.minute.setSize(Vector2f(140, 4));
 	Hand.minute.setFillColor(Color::Black);
-	Hand.minute.setPosition(WINDOW_X / 2, WINDOW_X / 2);
+	Hand.minute.setPosition(window_x / 2, window_x / 2);
 
-	Hand.hour.setSize(Vector2f(100, 6));
+	Hand.hour.setSize(Vector2f(100, 5));
 	Hand.hour.setFillColor((Color::Black));
-	Hand.hour.setPosition(WINDOW_X / 2, WINDOW_X / 2);
+	Hand.hour.setPosition(window_x / 2 + 1, window_x / 2);
 
 	Hand.Òentre.setRadius(10);
 	Hand.Òentre.setFillColor(sf::Color::Black);
-	Hand.Òentre.setPosition((WINDOW_X / 2) - Hand.Òentre.getRadius(), (WINDOW_X / 2) - Hand.Òentre.getRadius());
+	Hand.Òentre.setPosition((window_x / 2) - Hand.Òentre.getRadius(), (window_y / 2) - Hand.Òentre.getRadius());
 }
-void DrawClock(RenderWindow& window, HandStuct Hand, CircleShape shape)
+void InitializationShape(CircleShape& shape)
+{
+	shape.setRadius(CLOCK_FACE);
+	shape.setFillColor(sf::Color::White);
+	shape.setOutlineThickness(THICKNESS);
+	shape.setOutlineColor(Color::Black);
+	shape.setPointCount(4000);
+	shape.setPosition((window_x / 2) - shape.getRadius(), (window_y / 2) - shape.getRadius());
+}
+void DrawClock(RenderWindow& window, HandStuct Hand, CircleShape shape, CircleShape& point)
 {
 	window.draw(shape);
-	ClockNumber(window);
+	SetPoints(window, point);
 	window.draw(Hand.hour);
 	window.draw(Hand.minute);
 	window.draw(Hand.second);
 	window.draw(Hand.Òentre);
-
-
 }
 void InputTime(TimeforClock& TimeClock)
 {
@@ -90,20 +95,18 @@ void AngleArrow(TimeforClock TimeClock, HandStuct& Hand)
 
 int main()
 {
-	struct HandStuct Hand;
-	struct TimeforClock TimeClock;
+	HandStuct Hand;
+	TimeforClock TimeClock;
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 8;
-	sf::RenderWindow window(sf::VideoMode(WINDOW_X, WINDOW_Y), "CLOCK", sf::Style::Default, settings);
+	sf::RenderWindow window(sf::VideoMode(window_x, window_y), "CLOCK", sf::Style::Default, settings);
 	// »ÌËˆË‡ÎËÁ‡ˆËˇ "ÍÛ„‡" ˆËÙÂ·Î‡Ú‡
-	CircleShape shape(clock_face);
-	shape.setFillColor(sf::Color::White);
-	shape.setOutlineThickness(8);
-	shape.setOutlineColor(Color::Black);
-	shape.setPointCount(4000);
-	shape.setPosition((WINDOW_X /2) - shape.getRadius(), (WINDOW_X / 2) - shape.getRadius());
+	CircleShape shape;
+	InitializationShape(shape);
 	// »ÌËˆË‡ÎËÁ‡ˆËˇ ÒÚÂÎÓÍ ˜‡ÒÓ‚
 	InitializationHands(Hand);
+	CircleShape point;
+	
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::White);
@@ -116,7 +119,7 @@ int main()
 		}
 		InputTime(TimeClock);
 		AngleArrow(TimeClock, Hand);
-		DrawClock(window, Hand, shape);
+		DrawClock(window, Hand, shape, point);
 		window.display();
 	}
 	return 0;
