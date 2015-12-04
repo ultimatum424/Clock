@@ -30,8 +30,8 @@ void SetPoints(RenderWindow& window, CircleShape& point)
 	{
 		point.setRadius(2);
 		if (i % 5 == 0) point.setRadius(5);
-		float x = window_x / 2 + (CLOCK_FACE - THICKNESS) * cos(i * 6 * float(M_PI) / 180) - 3 ;
-		float y = window_x / 2 + (CLOCK_FACE - THICKNESS) * sin(i * 6 * float(M_PI) / 180) - 3;
+		float x = WINDOW_X / 2 + (CLOCK_FACE - THICKNESS) * cos(i * 6 * float(M_PI) / 180) - 3 ;
+		float y = WINDOW_X / 2 + (CLOCK_FACE - THICKNESS) * sin(i * 6 * float(M_PI) / 180) - 3;
 		point.setPosition(x, y);
 		window.draw(point);
 	}
@@ -39,20 +39,20 @@ void SetPoints(RenderWindow& window, CircleShape& point)
 void InitializationHands(HandStuct& Hand)
 {
 	Hand.second.setSize(Vector2f(185, 3));
-	Hand.second.setPosition(window_x / 2, window_x / 2);
+	Hand.second.setPosition(WINDOW_X / 2, WINDOW_Y / 2);
 	Hand.second.setFillColor(Color::Red);
 
 	Hand.minute.setSize(Vector2f(140, 4));
 	Hand.minute.setFillColor(Color::Black);
-	Hand.minute.setPosition(window_x / 2, window_x / 2);
+	Hand.minute.setPosition(WINDOW_X / 2, WINDOW_Y / 2);
 
 	Hand.hour.setSize(Vector2f(100, 5));
 	Hand.hour.setFillColor((Color::Black));
-	Hand.hour.setPosition(window_x / 2 + 1, window_x / 2);
+	Hand.hour.setPosition(WINDOW_X / 2 + 1, WINDOW_Y / 2);
 
 	Hand.Òentre.setRadius(10);
 	Hand.Òentre.setFillColor(sf::Color::Black);
-	Hand.Òentre.setPosition((window_x / 2) - Hand.Òentre.getRadius(), (window_y / 2) - Hand.Òentre.getRadius());
+	Hand.Òentre.setPosition((WINDOW_X / 2) - Hand.Òentre.getRadius(), (WINDOW_Y / 2) - Hand.Òentre.getRadius());
 }
 void InitializationShape(CircleShape& shape)
 {
@@ -61,7 +61,7 @@ void InitializationShape(CircleShape& shape)
 	shape.setOutlineThickness(THICKNESS);
 	shape.setOutlineColor(Color::Black);
 	shape.setPointCount(4000);
-	shape.setPosition((window_x / 2) - shape.getRadius(), (window_y / 2) - shape.getRadius());
+	shape.setPosition((WINDOW_X / 2) - shape.getRadius(), (WINDOW_Y / 2) - shape.getRadius());
 }
 void DrawClock(RenderWindow& window, HandStuct Hand, CircleShape shape, CircleShape& point)
 {
@@ -81,7 +81,7 @@ void InputTime(TimeforClock& TimeClock)
 	TimeClock.second = st.wSecond;
 
 }
-void AngleArrow(TimeforClock TimeClock, HandStuct& Hand)
+void RotationArrow(TimeforClock TimeClock, HandStuct& Hand)
 {
 	int angel;
 	angel = 360 / 60 * TimeClock.second - 90;
@@ -99,7 +99,7 @@ int main()
 	TimeforClock TimeClock;
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 8;
-	sf::RenderWindow window(sf::VideoMode(window_x, window_y), "CLOCK", sf::Style::Default, settings);
+	sf::RenderWindow window(sf::VideoMode(WINDOW_X, WINDOW_Y), "CLOCK", sf::Style::Default, settings);
 	// »ÌËˆË‡ÎËÁ‡ˆËˇ "ÍÛ„‡" ˆËÙÂ·Î‡Ú‡
 	CircleShape shape;
 	InitializationShape(shape);
@@ -118,7 +118,7 @@ int main()
 				window.close();
 		}
 		InputTime(TimeClock);
-		AngleArrow(TimeClock, Hand);
+		RotationArrow(TimeClock, Hand);
 		DrawClock(window, Hand, shape, point);
 		window.display();
 	}
