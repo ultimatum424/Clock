@@ -29,7 +29,17 @@ void SetPoints(RenderWindow& window, CircleShape& point)
 	for (int i = 1; i <= 60; i++)
 	{
 		point.setRadius(2);
-		if (i % 5 == 0) point.setRadius(5);
+		point.setOrigin(1, 1);
+		if (i % 5 == 0)
+		{
+			point.setRadius(5);
+			point.setOrigin(2.5, 2.5);
+		}
+		if (i & 15 == 0)
+		{
+			point.setRadius(7);
+			point.setOrigin(3.5, 3.5);
+		}
 		float x = WINDOW_X / 2 + (CLOCK_FACE - THICKNESS) * cos(i * 6 * float(M_PI) / 180) - 3 ;
 		float y = WINDOW_X / 2 + (CLOCK_FACE - THICKNESS) * sin(i * 6 * float(M_PI) / 180) - 3;
 		point.setPosition(x, y);
@@ -39,16 +49,19 @@ void SetPoints(RenderWindow& window, CircleShape& point)
 void InitializationHands(HandStuct& Hand)
 {
 	Hand.second.setSize(Vector2f(185, 3));
+	Hand.second.setOrigin(Vector2f(0, 1.5));
 	Hand.second.setPosition(WINDOW_X / 2, WINDOW_Y / 2);
 	Hand.second.setFillColor(Color::Red);
 
 	Hand.minute.setSize(Vector2f(140, 4));
+	Hand.minute.setOrigin(Vector2f(0, 2));
 	Hand.minute.setFillColor(Color::Black);
 	Hand.minute.setPosition(WINDOW_X / 2, WINDOW_Y / 2);
 
 	Hand.hour.setSize(Vector2f(100, 5));
+	Hand.hour.setOrigin(Vector2f(0, 2.5));
 	Hand.hour.setFillColor((Color::Black));
-	Hand.hour.setPosition(WINDOW_X / 2 + 1, WINDOW_Y / 2);
+	Hand.hour.setPosition(WINDOW_X / 2, WINDOW_Y / 2);
 
 	Hand.ñentre.setRadius(10);
 	Hand.ñentre.setFillColor(sf::Color::Black);
